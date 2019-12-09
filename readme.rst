@@ -18,3 +18,5 @@ On the root of the project,there is a file ```config.json``` that has DB credent
 They can be changed to match the your current database
 
 On the root folder,there is a .SQL file.Please run that against you database so as to generate scripts and populate with data
+
+You can now access the app via the browser e.g http://localhost:9000/
