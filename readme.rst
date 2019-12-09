@@ -8,7 +8,11 @@ All the data i accessed via by unauthorized APIs
 *******************
 How to set up
 *******************
-`Database`
+Clone this project into a folder called prac
+##Database Connections
+On the root of the project,there is a file ```config.json``` that has DB credentials.
+They can be changed to match the your current database
+
 
 
 **************************
