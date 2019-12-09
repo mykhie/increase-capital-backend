@@ -73,11 +73,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
+$dbString =(array)json_decode(file_get_contents( 'config.json'));
+
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'bizcustc_sa',
-	'password' => '613cu7@90_C',
+	'hostname' => $dbString['hostname'],
+	'username' => $dbString['username'],
+	'password' => $dbString['password'],
 	'database' => 'prac',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
