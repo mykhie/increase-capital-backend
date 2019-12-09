@@ -89,5 +89,23 @@ class utility
         return (array)$request;
     }
 
+    public function formatDate($date, $dateformat = null)
+    {
+        $createdDate = date_create($date);
+
+        if (isset($dateformat)) {
+            return date_format($createdDate, $dateformat);
+        }
+
+        else  {
+            return date_format($createdDate, "d M Y H:i ");
+        }
+
+        $format = "d M 'y ";
+        return date_format($createdDate, $format);
+
+
+    }
+
 
 }

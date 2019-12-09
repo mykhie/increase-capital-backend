@@ -9,7 +9,7 @@
 class Transactionsmodel extends CI_Model
 {
 
-    public $table = 'Transactions';
+    public $table = 'transactions';
 
     public function __construct()
     {
@@ -23,11 +23,12 @@ class Transactionsmodel extends CI_Model
         if (strlen($search) > 0) {
             $this->db->where("(code LIKE '%$search%')");
         }
-
+        $this->db->select("transactions.*,customers.firstName,customers.lastName");
         if ($page > -1)
             $this->db->limit(PAGE_NUMBER_ITEMS, $page * PAGE_NUMBER_ITEMS);
 
-        $this->db->order_by('id', 'desc');
+        $this->db->join($this->Customers->table,  $this->Customers->table.'.id=transactions.customerId');
+        $this->db->order_by($this->table.'.id', 'desc');
 
         $q = $this->db->get($this->table);
         return $q->result_array();

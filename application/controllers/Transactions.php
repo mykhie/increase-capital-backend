@@ -23,7 +23,7 @@ class Transactions extends CI_Controller
     {
         $search = $this->input->get('search');
 
-        $whr['status'] = 1;
+        $whr['transactions.status'] = 1;
 
         if(is_numeric($customerId)){
             $whr['customerId'] = $customerId;
