@@ -18,6 +18,10 @@ class Main extends CI_Controller
 {
 
 
+    public function index()
+    {
+        $this->load->view('index');
+    }
 
     public function getAllCustomers($page = 0)
     {
@@ -92,9 +96,6 @@ class Main extends CI_Controller
         }
 
     }
-
-
-
 
 
 }

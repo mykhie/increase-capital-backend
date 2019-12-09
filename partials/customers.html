@@ -1,0 +1,196 @@
+<div>
+    <h2>Customers</h2>
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-6">
+            <div class="dropdown">
+                <button class="btn btn-clear dropdown-toggle btn-sm  col-xs-8" type="button" data-toggle="dropdown">
+                    <i class="fa fa-filter"></i> {{customers.filerName==''?'All':customers.filerName}}
+                    <span class="fas fa-caret-down"></span></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" ng-click="customers.filerName=''"
+                       href="#/">All</a>
+
+                    <a class="dropdown-item" ng-click="customers.filerName=branch.name"
+                       href="#/" ng-repeat="branch in customers.branches">{{branch.name}}</a>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6 text-right">
+            <div class="btn btn-sm bg-orange col-md-2 col-xs-6"
+                 ng-click="customers.newCustomerModal()"
+                 data-toggle="tooltip" title="Add customer">Add Customer
+            </div>
+        </div>
+    </div>
+
+    <div ng-init="customers.setCustomerDataArrayList()">
+
+
+        <div class="alert alert-success" ng-if="customers.saveStatus">
+            <i class="fas fa-check"></i> Customer has been saved successfully
+        </div>
+        <div class="alert alert-success" ng-if="loans.saveStatus">
+            <i class="fas fa-check"></i> Loan has been saved successfully
+        </div>
+
+        <div class="card customer-info" ng-if="customers.customers.data.length==0"
+             ng-init="customer.showLoad=false">
+
+            <div class="card-body">
+                <div class="media border p-3" style="border: none!important;">
+                    <img src="https://via.placeholder.com/150/ff0000/FFFFFF?text=!" alt="image"
+                         class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                    <div class="media-body">
+
+                        <div class="customer-contacts">OOPS<br>
+                            Seems like you have not added any customer yet.Please click on "add customer" button and you
+                            good to go
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div ng-init="customers.getAllCompanyClients()">
+            <div class=" col-xs-12">
+                <div class="float-left col-md-5">
+                    <button class="btn btn-default" ng-click="customers.customers.searchRecords()">
+                        <i class="fa fa-recycle"></i>
+                    </button>
+                </div>
+                <div class="float-right col-md-6 text-right">
+                    <ul class="list-unstyled ">
+                        <li><span>{{customers.customers.startPosition}}-{{customers.customers.endPosition}} of {{customers.customers.totalItems}}</span>
+                        </li>
+                        <li ng-show="Customers.customers.showPrevButton">
+                            <a class="np-btn" href="#/customers" ng-click="customers.customers.goToPrevPage()"><i
+                                    class="fa fa-angle-left  pagination-left"></i></a>
+                        </li>
+                        <li ng-show="Customers.customers.showNextButton">
+
+                            <a class="np-btn" href="#/customers" ng-click="customers.customers.goToNextPage()"><i
+                                    class="fa fa-angle-right pagination-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="col-md-12 row mb-1">
+                <div>
+                    <input class="form-control " ng-change="customers.customers.searchRecords()"
+                           ng-model="customers.customers.search"
+                           placeholder="Search Client">
+                </div>
+
+
+                <div class="col-3">
+                    <input class="form-control " ng-change="customers.customers.searchRecords()"
+                           ng-model="customers.formSearchData.dateFrom" type="date"
+                           placeholder="Select Start Date">
+                </div>
+                <div class="col-3">
+                    <input class="form-control " ng-change="customers.customers.searchRecords()"
+                           ng-model="customers.formSearchData.dateTo" type="date"
+                           placeholder="Select End Date">
+                </div>
+                <div class="col-3">
+                    <select class="form-control " ng-change="customers.customers.searchRecords()"
+                           ng-model="customers.formSearchData.gender"
+                          >
+                        <option selected disabled>--SELECT GENDER--</option>
+                        <option ng-repeat="gender in customers.gender" value="{{gender.id}}">{{gender.name}}</option>
+                    </select>
+
+
+                </div>
+
+
+            </div>
+
+            <div ng-show="customers.HttpStatus">
+                <i class="fa fa-spin fa-spinner"></i> loading ...
+            </div>
+
+            <div class="card customer-info"
+                 ng-repeat="customer in customers.customers.data|filter ">
+
+                <div class="card-body">
+                    <div class="media border p-3" style="border: none!important;">
+                        <img ng-show="!customer.image"
+                             src="https://via.placeholder.com/150/e66425/FFFFFF?text={{customers.returnInitials(customer.firstName+' '+customer.lastName)}}"
+                             alt="image"
+                             class="mr-3 mt-3 rounded-circle" style="width:60px;">
+
+                        <img ng-show="customer.image" src="{{customer.image}}"
+                             alt="image"
+                             class="mr-3 mt-3 rounded-circle" style="width:60px;height:60px;">
+
+
+                        <div class="media-body">
+                            <h5>{{customer.customerCode}} {{customer.firstName}} {{customer.lastName}}</h5>
+                            <div class="customer-contacts"><span class="col-xs-12"><i
+                                    class="fas fa-mobile"></i> {{customer.mobile}}</span><span
+                                    class="col-xs-12"> | <i
+                                    class="fas fa-envelope"></i> {{customer.email}}</span>
+                            </div>
+                            <div class="col-xs-12" style="margin-top: 0px;">
+                                Branch : {{customer.branch}}
+                            </div>
+
+                            <div class="">
+                                <p ng-show="customer.showLoad">{{customer.email}} | {{customer.mobile}}</p>
+                                <a href="#/" ng-click='customer.showLoad=true' class="btn-link" ng-show="!customer.showLoad">Contacts</a>
+
+                                <a href="#/loans/{{customer.id}}/1" class="pl-2 btn-link" ng-click="customers.saveTempCustomer(customer)">Loans</a>
+                                <a href="#/loans/{{customer.id}}/2" class="pl-2 btn-link"  ng-click="customers.saveTempCustomer(customer)">Repayments</a>
+                            </div>
+                            <div class="col-xs-12 text-right">
+                                <button class="btn bg-default btn-md round-btn"
+                                        ng-click="customers.reloadForm = true;customers.customerFormData=customer"
+                                        data-toggle="modal" data-target="#myModal"
+                                ><i class="fas fa-edit"></i></button>
+                                &nbsp;
+                                <button ng-click="customers.delete(customer)"
+                                        class="btn bg-danger btn-md round-btn"><i class="fas fa-times"></i></button>
+                                &nbsp;
+                                <button class="btn bg-orange btn-md round-btn"
+                                        ng-click="loans.reloadForm = true;loans.loanFormData.customer=customer"
+                                        data-toggle="modal" data-target="#loan"
+                                ><i class="fas fa-plus"></i></button>
+                                &nbsp;
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div>
+            <ng-include src="'partials/loan-modal.html'">
+
+            </ng-include>
+        </div>
+        <div>
+            <ng-include src="'partials/customers/addCustomer.html'">
+
+            </ng-include>
+        </div>
+    </div>
+    <script>
+        $("#image").on('change', function () {
+            var reader = new FileReader();
+            reader.onload = function () {
+                $("#image-preview").attr('src', reader.result).show();
+            };
+            reader.readAsDataURL($("#file-to-upload").get(0).files[0]);
+        });
+    </script>

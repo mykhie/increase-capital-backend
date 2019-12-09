@@ -1,0 +1,211 @@
+<div class="modal" id="myModal">
+    <div class="modal-dialog  modal-lg modal-full">
+        <div class="modal-content modal-bg">
+
+            <!-- Modal Header -->
+
+
+            <div class="modal-header bg-orange">
+                <h4></h4>
+                <a href="" class=" pull-right " style="color:white;" data-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </a>
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container modal-container">
+                    <div class="row">
+                        <div class="clearfix">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-12 bottom-bordered modal-custom-header">
+                            <div class="h3 text-bold modal-header-h3">
+
+                                Add Customer
+
+
+                                <ajax-spinner></ajax-spinner>
+                            </div>
+                            <small>Please enter the customer details</small>
+                        </div>
+                    </div>
+                    <form name="customerForm" ng-if="customers.reloadForm" >
+                        <span><mandatory-field></mandatory-field> Mandatory fields</span>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="firstName">First Name
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.firstName'
+                                       ng-class="{'has-error-input' : customerForm.firstName.$invalid&&customerForm.firstName.$dirty}"
+
+                                       ng-pattern="customers.regex.name"
+                                       class="form-control" required name="firstName" id="firstName">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.firstName.$invalid&&customerForm.firstName.$dirty">
+                                    Invalid characters on the first name
+                                </span>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="lastName">Last Name
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.lastName'
+                                       ng-class="{'has-error-input' : customerForm.lastName.$invalid&&customerForm.lastName.$dirty}"
+
+                                       ng-pattern="customers.regex.name"
+                                       class="form-control" required name="lastName" id="lastName">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.lastName.$invalid&&customerForm.lastName.$dirty">
+                                    Invalid characters on the last name
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="branch">Gender
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <select ng-model='customers.customerFormData.gender'
+                                        ng-class="{'has-error-input' : customerForm.gender.$invalid&&customerForm.gender.$dirty}"
+
+                                        class="form-control" required name="gender" id="gender">
+                                    <option ng-repeat="gender in customers.gender" value="{{gender.id}}">{{gender.name}}</option>
+
+                                </select>
+                                <span class="has-error"
+                                      ng-show="customerForm.gender.$invalid&&customerForm.gender.$dirty">
+                                    Invalid gender
+                                </span>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="idNo">ID Number
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.idNo'
+                                       ng-class="{'has-error-input' : idNo.address.$invalid&&customerForm.idNo.$dirty}"
+
+                                       class="form-control" required name="idNo" id="idNo">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.idNo.$invalid&&customerForm.idNo">
+                                   Invalid idNo
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="image">Customer image
+                            </label>
+
+
+                            <input type="file" id="image" class="form-control"
+                                   onchange="angular.element(this).scope().setFile(this)" accept="image/*">
+                            <img ng-if="customers.customerFormData.image"
+                                 ng-src="{{customers.customerFormData.image}}" class="mr-3 mt-3 rounded-circle"
+                                 style="width:80px;height: 80px">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="email">Email
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.email'
+                                       ng-class="{'has-error-input' : customerForm.email.$invalid&&customerForm.email.$dirty}"
+
+                                       ng-pattern="customers.regex.email"
+                                       class="form-control" required name="email" id="email">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.email.$invalid&&customerForm.email.$dirty">
+                                    Invalid email address
+                                </span>
+                            </div>
+                            <div class="col-md-6">
+
+                                <label for="mobile">Mobile Number
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.mobile'
+                                       ng-class="{'has-error-input' : customerForm.mobile.$invalid&&customerForm.mobile.$dirty}"
+
+                                       ng-pattern="customers.regex.mobile"
+                                       class="form-control" required name="mobile" id="mobile">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.mobile.$invalid&&customerForm.mobile.$dirty">
+                                    Invalid mobile number,must be of format 07XXXXXXXX
+                                </span>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="branch">Branch
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <select ng-model='customers.customerFormData.branch'
+                                        ng-class="{'has-error-input' : customerForm.branch.$invalid&&customerForm.branch.$dirty}"
+
+                                        ng-pattern="customers.regex.name"
+                                        class="form-control" required name="branch" id="branch">
+                                    <option ng-repeat="branch in customers.branches">{{branch.name}}</option>
+
+                                </select>
+                                <span class="has-error"
+                                      ng-show="customerForm.branch.$invalid&&customerForm.branch.$dirty">
+                                    Invalid Branch
+                                </span>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label for="address">Address
+                                    <mandatory-field></mandatory-field>
+                                </label>
+                                <input type="text" ng-model='customers.customerFormData.address'
+                                       ng-class="{'has-error-input' : customerForm.address.$invalid&&customerForm.address.$dirty}"
+
+                                       class="form-control" required name="address" id="address">
+
+                                <span class="has-error"
+                                      ng-show="customerForm.loanLimit.$invalid&&customerForm.address">
+                                   Invalid address
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="col-xs-12 text-right  modal-custom-footer">
+
+                            <br>
+                            <button class="btn  btn-primary" ng-disabled="customerForm.$invalid"
+                                    ng-click="customers.saveCustomer(customers.customerFormData)">Save Customer
+
+                            </button>
+
+                            <button class="btn  btn-danger" data-dismiss="modal" aria-disabled="false">cancel
+
+                            </button>
+
+
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,188 @@
+<div ng-controller="LoansController">
+    <h2>Loans</h2>
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-6">
+            <div class="dropdown">
+                <button class="btn btn-clear dropdown-toggle btn-sm  col-xs-8" type="button" data-toggle="dropdown">
+                    <i class="fa fa-filter"></i> {{loans.filerName==''?'All':loans.filerName}} Type
+                    <span class="fas fa-caret-down"></span></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" ng-click="loans.filerName=''"
+                       href="#/loans">All</a>
+
+                    <a class="dropdown-item" ng-click="loans.filerName=loan.name"
+                       href="#/loans" ng-repeat="loan in loans.loanTypes">{{loan.name}}</a>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6 text-right">
+            <div class="btn btn-sm bg-orange col-md-2 col-xs-6"
+                 ng-click="loans.newLoansModal()"
+                 data-toggle="tooltip" title="Add customer">Add Loan
+            </div>
+        </div>
+    </div>
+
+    <div ng-init="loans.setLoansDataArrayList()">
+
+
+        <div class="alert alert-success" ng-if="loans.saveStatus">
+            <i class="fas fa-check"></i> Loan has been saved successfully
+        </div>
+
+
+        <div class="card-body p-0" ng-show="Transactions.selectedCustomerId">
+
+            <div class="media-body">
+                <div class="card customer-info" ng-init="Transactions.getCustomerDetails()">
+                    <div ng-show="Transactions.selectedCustomer">
+                        <div class="media border p-3">
+                            <img src="https://www.w3schools.com/bootstrap4/img_avatar3.png" alt="John Doe"
+                                 class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                            <div class="media-body">
+                                <h4>{{Transactions.selectedCustomer.firstName}}
+                                    {{Transactions.selectedCustomer.lastName}}</h4>
+                                <p>{{Transactions.selectedCustomer.idNo}} | {{Transactions.selectedCustomer.mobile}}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p class="col-md-12" ng-show="Transactions.selectedTxnType==1">
+                        Loans
+                    </p>
+                    <p class="col-md-12" ng-show="Transactions.selectedTxnType==2">
+                        Repayments
+                    </p>
+
+                </div>
+            </div>
+        </div>
+
+        <div ng-init="Transactions.getAllLoans()">
+            <div class=" col-xs-12">
+                <div class="float-left col-md-5">
+                    <button class="btn btn-default" ng-click="Transactions.transactions.searchRecords()">
+                        <i class="fa fa-recycle"></i>
+                    </button>
+                </div>
+                <div class="float-right col-md-6 text-right">
+                    <ul class="list-unstyled ">
+                        <li><span>{{Transactions.transactions.startPosition}}-{{Transactions.transactions.endPosition}} of {{Transactions.transactions.totalItems}}</span>
+                        </li>
+                        <li ng-show="Customers.customers.showPrevButton">
+                            <a class="np-btn" href="#/customers" ng-click="Transactions.transactions.goToPrevPage()"><i
+                                    class="fa fa-angle-left  pagination-left"></i></a>
+                        </li>
+                        <li ng-show="Customers.customers.showNextButton">
+
+                            <a class="np-btn" href="#/customers" ng-click="Transactions.transactions.goToNextPage()"><i
+                                    class="fa fa-angle-right pagination-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-12 row mb-2">
+                <input class="form-control " ng-change="Transactions.transactions.searchRecords()"
+                       ng-model="Transactions.transactions.search"
+                       placeholder="Search Loan or client">
+
+            </div>
+
+            <div ng-show="Transactions.HttpStatus">
+                <i class="fa fa-spin fa-spinner"></i> loading ...
+            </div>
+
+            <div class="card-body p-0" ng-if="Transactions.transactions.data.length>0">
+
+                <div class="media-body">
+                    <div class="card customer-info">
+                        <table class="table">
+                            <thead class="text-capitalize">
+                                <th>code</th>
+                                <th>amount</td>
+                                <th>mobile</th>
+                                <th>station</th>
+                                <th>customer</th>
+                                <th>date Created</th>
+                                <th>date Due</th>
+                                <th>loan Status</th>
+                                <th>transaction No</th>
+                                <th>transaction Type</th>
+                                <th>transaction Origin</th>
+                            </thead>
+                            <tbody>
+                            <tr
+                                    ng-repeat="loan in Transactions.transactions.data "
+                            >
+                                <td>{{loan.code}}</td>
+                                <td>{{loan.amount}}</td>
+                                <td>{{loan.mobile}}</td>
+                                <td>{{loan.stationId}}</td>
+                                <td>{{loan.firstName}} {{loan.lastName}}</td>
+                                <td>{{loan.dateCreated}}</td>
+                                <td>{{loan.dateDue}}</td>
+                                <td>{{loan.loanStatusId}}</td>
+                                <td>{{loan.transactionNo}}</td>
+                                <td>
+                                    <span ng-show="loan.transactionType==2">
+                                        Repayment
+                                    </span>
+                                    <span ng-show="loan.transactionType==1">
+                                        Loan
+                                    </span>
+
+                                </td>
+                                <td>{{loan.transactionOrigin}}</td>
+                                <td>
+                                    <button class="btn bg-default btn-md round-btn"
+                                            ng-click="loans.reloadForm = true;loans.loanFormData=loan"
+                                            data-toggle="modal" data-target="#myModal"
+                                    ><i class="fas fa-edit"></i></button>
+                                    &nbsp;
+                                    <button ng-click="loans.delete(customer)"
+                                            class="btn bg-danger btn-md round-btn"><i class="fas fa-times"></i>
+                                    </button>
+                                    &nbsp;
+
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="card customer-info" ng-if="Transactions.transactions.data.length==0"
+                 ng-init="customer.showLoad=false">
+
+                <div class="card-body">
+                    <div class="media border p-3" style="border: none!important;">
+                        <img src="https://via.placeholder.com/150/ff0000/FFFFFF?text=!" alt="image"
+                             class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                        <div class="media-body">
+
+                            <div class="customer-contacts">OOPS<br>
+                                Seems like you have not added any loan yet.Please click on "add loan" button and you
+                                good to go
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <ng-include src="'partials/loans/addLoan.html'">
+
+            </ng-include>
+        </div>
+
+    </div>

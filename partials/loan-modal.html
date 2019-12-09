@@ -1,0 +1,155 @@
+<div>
+    <div class="modal" id="loan">
+        <div class="modal-dialog  modal-lg modal-full">
+            <div class="modal-content modal-bg">
+
+                <!-- Modal Header -->
+
+
+                <div class="modal-header bg-orange">
+                    <h4></h4>
+                    <a href="" class=" pull-right " style="color:white;" data-dismiss="modal">
+                        <i class="fas fa-times"></i>
+                    </a>
+
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="container modal-container">
+                        <div class="row">
+                            <div class="clearfix">
+                                &nbsp;
+                            </div>
+                            <div class="col-md-12 bottom-bordered modal-custom-header">
+                                <div class="h3 text-bold modal-header-h3">
+
+                                    Add Customer Loan
+
+
+                                    <ajax-spinner></ajax-spinner>
+                                </div>
+                                <small></small>
+                            </div>
+                        </div>
+
+                        <div ng-show="loans.loanFormData.customer">
+
+
+                            <div class="card-body">
+                                <label><b>Issue To : </b></label>
+                                <div class="media border p-3" style="border: none!important;">
+                                    <img src="https://via.placeholder.com/150/e66425/FFFFFF?text={{customers.returnInitials(loans.loanFormData.customer.firstName+' '+loans.loanFormData.customer.lastName)}}" alt="John Doe"
+                                         class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                                    <div class="media-body">
+                                        <h5>{{loans.loanFormData.customer.id}} {{loans.loanFormData.customer.firstName}}
+                                            {{loans.loanFormData.customer.lastName}}</h5>
+                                        <div class="customer-contacts"><span class="col-xs-12"><i
+                                                class="fas fa-mobile"></i> {{loans.loanFormData.customer.mobile}}</span><span
+                                                class="col-xs-12"> | <i class="fas fa-envelope"></i> {{loans.loanFormData.customer.customerEmail}}</span>
+                                        </div>
+                                        <div class="col-xs-12" style="margin-top: 0px;">
+                                            Branch : {{loans.loanFormData.customer.branch}}
+                                        </div>
+
+                                        <div class="btn-link">
+                                            <b>Ksh. {{loans.loanFormData.customer.loanLimit}}</b>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <form name="loanForm" ng-if="loans.reloadForm" role="form" novalidate="">
+
+
+                                <div class="form-group">
+                                    <label for="loanName">Loan Name <mandatory-field></mandatory-field></label>
+                                    <input type="text" ng-model='loans.loanFormData.loanName'
+                                           ng-class="{'has-error-input' : loanForm.loanName.$invalid&&loanForm.loanName.$dirty}"
+
+                                           ng-pattern="customers.regex.name"
+                                           class="form-control" required name="loanName" id="loanName">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.loanName.$invalid&&loanForm.loanName.$dirty">
+                                    Invalid characters on loan name
+                                </span>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="loanAmount">Loan Amount <mandatory-field></mandatory-field> <b>[Max :
+                                        {{loans.loanFormData.customer.loanLimit}}]</b></label>
+                                    <input type="number" ng-model='loans.loanFormData.loanAmount'
+                                           ng-class="{'has-error-input' : loanForm.loanAmount.$invalid&&loanForm.loanAmount.$dirty}"
+                                           max="{{loans.loanFormData.customer.loanLimit}}" min="0"
+                                           ng-pattern="customers.regex.loan"
+                                           class="form-control" required name="loanAmount" id="loanAmount">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.loanAmount.$invalid&&loanForm.loanAmount.$dirty">
+                                   Loan Amount exceed customer limit
+                                </span>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="interestRate">Interest Rate <mandatory-field></mandatory-field></label>
+                                    <input type="number" ng-model='loans.loanFormData.interestRate'
+                                           ng-class="{'has-error-input' : loanForm.interestRate.$invalid&&loanForm.interestRate.$dirty}"
+                                           max="100" min="0"
+                                           ng-pattern="customers.regex.loan"
+                                           class="form-control" required name="interestRate" id="interestRate">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.interestRate.$invalid&&loanForm.interestRate.$dirty">
+                                   Interest Rate must be between 0-100
+                                </span>
+
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="type">type <mandatory-field></mandatory-field></label>
+                                    <select ng-model='loans.loanFormData.type'
+                                            ng-class="{'has-error-input' : loanForm.type.$invalid&&loanForm.type.$dirty}"
+
+                                            ng-pattern="customers.regex.name"
+                                            class="form-control" required name="type" id="type">
+                                        <option ng-repeat="type in loans.loanTypes">{{type.name}}</option>
+
+                                    </select>
+                                    <span class="has-error"
+                                          ng-show="loanForm.type.$invalid&&loanForm.type.$dirty">
+                                    Invalid type
+                                </span>
+
+                                </div>
+
+
+                                <div class="col-xs-12 text-right  modal-custom-footer">
+
+                                    <br>
+                                    <button class="btn  btn-primary" ng-disabled="loanForm.$invalid"
+                                            ng-click="loans.saveLoan(loans.loanFormData)">Save Loan
+
+                                    </button>
+
+                                    <button class="btn  btn-danger" data-dismiss="modal" aria-disabled="false">cancel
+
+                                    </button>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

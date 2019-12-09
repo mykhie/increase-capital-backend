@@ -1,0 +1,176 @@
+<div ng-controller="ReportsController">
+    <h2>Reports</h2>
+    <div class="row" style="padding-bottom: 10px;">
+        <div class="col-6">
+            <div class="dropdown" ng-init="Reports.filerName ='All'">
+                <button class="btn btn-clear dropdown-toggle btn-sm  col-xs-8" type="button" data-toggle="dropdown">
+                    <i class="fa fa-filter"></i> {{Reports.filerName}} Type
+                    <span class="fas fa-caret-down"></span></button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" ng-click="Reports.filerName='All'"
+                       href="#/reports/0">All</a>
+
+                    <a class="dropdown-item" ng-click="Reports.filerName='Loans'"
+                       href="#/reports/1">Loans</a>
+                    <a class="dropdown-item" ng-click="Reports.filerName=='Payments'"
+                       href="#/reports/2">Payments</a>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-6 text-right">
+            <button class="btn btn-sm bg-primary text-white"
+                    ng-click="Reports.downloadExcel()"
+            ><i class="fas fa-download"></i> Excel
+            </button>
+            <button class="btn btn-sm bg-danger text-white"
+                    ng-click="Reports.downloadPdf()"
+            ><i class="fas fa-download"></i> PDF
+            </button>
+        </div>
+    </div>
+
+    <div>
+
+        <div ng-init="Reports.getAllLoans()">
+            <div class=" col-xs-12">
+                <div class="float-left col-md-5 row ">
+                    <button class="btn btn-default" ng-click="Reports.transactions.searchRecords()">
+                        <i class="fas fa-recycle"></i>
+                    </button>
+                </div>
+                <div class="float-right col-md-6 text-right">
+                    <ul class="list-unstyled ">
+                        <li><span>{{Reports.transactions.startPosition}}-{{Reports.transactions.endPosition}} of {{Reports.transactions.totalItems}}</span>
+                        </li>
+                        <li ng-show="Customers.customers.showPrevButton">
+                            <a class="np-btn" href="#/customers" ng-click="Reports.transactions.goToPrevPage()"><i
+                                    class="fa fa-angle-left  pagination-left"></i></a>
+                        </li>
+                        <li ng-show="Customers.customers.showNextButton">
+
+                            <a class="np-btn" href="#/customers" ng-click="Reports.transactions.goToNextPage()"><i
+                                    class="fa fa-angle-right pagination-right"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-12 row mb-2">
+                <div class="col-3 pl-0">
+                    <input class="form-control " ng-change="Reports.transactions.searchRecords()"
+                           ng-model="Reports.transactions.search"
+                           placeholder="Search Loan or client">
+                </div>
+                <div class="col-3">
+                    <input class="form-control " ng-change="Reports.transactions.searchRecords()"
+                           ng-model="Reports.formData.dateFrom" type="date"
+                           placeholder="Select Start Date">
+                </div>
+                <div class="col-3">
+                    <input class="form-control " ng-change="Reports.transactions.searchRecords()"
+                           ng-model="Reports.formData.dateTo" type="date"
+                           placeholder="Select End Date">
+                </div>
+
+            </div>
+            <div ng-show="Reports.selectedTxnType==1">
+                <small>report name</small>
+                <h4>Loans</h4>
+            </div>
+            <div ng-show="Reports.selectedTxnType==2">
+                <small>report name</small>
+                <h4>Repayments</h4>
+            </div>
+            <div ng-show="Reports.selectedTxnType==0">
+                <small>report name</small>
+                <h4>All Transactions</h4>
+            </div>
+
+            <div ng-show="Reports.HttpStatus">
+                <i class="fa fa-spin fa-spinner"></i> loading ...
+            </div>
+
+            <div class="card-body p-0" ng-if="Reports.transactions.data.length>0">
+
+                <div class="media-body">
+                    <div class="card customer-info">
+                        <table class="table">
+                            <thead class="text-capitalize">
+                            <th>code</th>
+                            <th>amount
+                            </th>
+                            <th>mobile</th>
+                            <th>station</th>
+                            <th>customer</th>
+                            <th>date Created</th>
+                            <th>date Due</th>
+                            <th>loan Status</th>
+                            <th>transaction No</th>
+                            <th>transaction Type</th>
+                            <th>transaction Origin</th>
+                            </thead>
+                            <tbody>
+                            <tr
+                                    ng-repeat="loan in Reports.transactions.data "
+                            >
+                                <td>{{loan.code}}</td>
+                                <td>{{loan.amount}}</td>
+                                <td>{{loan.mobile}}</td>
+                                <td>{{loan.stationId}}</td>
+                                <td>{{loan.firstName}} {{loan.lastName}}</td>
+                                <td>{{loan.dateCreated}}</td>
+                                <td>{{loan.dateDue}}</td>
+                                <td>{{loan.loanStatusId}}</td>
+                                <td>{{loan.transactionNo}}</td>
+                                <td>
+                                    <span ng-show="loan.transactionType==2">
+                                        Repayment
+                                    </span>
+                                    <span ng-show="loan.transactionType==1">
+                                        Loan
+                                    </span>
+
+                                </td>
+                                <td>{{loan.transactionOrigin}}</td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="card customer-info" ng-if="Reports.transactions.data.length==0"
+                 ng-init="customer.showLoad=false">
+
+                <div class="card-body">
+                    <div class="media border p-3" style="border: none!important;">
+                        <img src="https://via.placeholder.com/150/ff0000/FFFFFF?text=!" alt="image"
+                             class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                        <div class="media-body">
+
+                            <div class="customer-contacts">OOPS<br>
+                                Seems like you have not added any loan yet.Please click on "add loan" button and you
+                                good to go
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div>
+            <ng-include src="'partials/loans/addLoan.html'">
+
+            </ng-include>
+        </div>
+
+    </div>
+</div>

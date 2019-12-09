@@ -1,0 +1,235 @@
+<div class="modal" id="myModal">
+    <div class="modal-dialog  modal-lg modal-full">
+        <div class="modal-content modal-bg">
+
+            <!-- Modal Header -->
+
+
+            <div class="modal-header bg-orange">
+                <h4></h4>
+                <a href="" class=" pull-right " style="color:white;" data-dismiss="modal">
+                    <i class="fas fa-times"></i>
+                </a>
+
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="container modal-container">
+                    <div class="row">
+                        <div class="clearfix">
+                            &nbsp;
+                        </div>
+                        <div class="col-md-12 bottom-bordered modal-custom-header">
+                            <div class="h3 text-bold modal-header-h3">
+
+                                Add Customer Loan
+
+
+                                <ajax-spinner></ajax-spinner>
+                            </div>
+                            <small></small>
+                        </div>
+                    </div>
+
+                    <div ng-init="customers.setCustomerDataArrayList();customers.getAllCompanyClients()">
+
+                        <input class="form-control" ng-click="Transactions.loanFormData={}"
+                               ng-change="customers.customers.searchRecords()"
+                               ng-model="customers.customers.search"
+                               placeholder="search customer">
+                        <br>
+
+
+                        <div ng-show="customers.HttpStatus">
+                            <i class="fa fa-spin fa-spinner"></i> loading ...
+                        </div>
+
+                        <div class="alert alert-danger" ng-if="customers.customers.data.length==0">
+                            <i class="fas fa-times"></i> Oops,seems like you have not added any customer
+                        </div>
+                        <table class="table " ng-hide="Transactions.loanFormData.customer">
+                            <tr
+                                    ng-repeat="customer in customers.customers.data">
+                                <td>
+                                    <h5><b>{{customer.firstName}} {{customer.lastName}}</b></h5>
+                                    {{customer.customerCode}}<br>
+                                    <button ng-click="Transactions.loanFormData.customer=customer"
+                                            class="btn btn-primary btn-sm"> issue
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+
+                    <div ng-show="Transactions.loanFormData.customer">
+
+
+                        <div class="card-body">
+                            <label><b>Issue To : </b></label>
+                            <div class="media border p-3" style="border: none!important;">
+                                <img ng-show="!Transactions.loanFormData.customer.image"
+                                     src="https://via.placeholder.com/150/e66425/FFFFFF?text={{customers.returnInitials(Transactions.loanFormData.customer.firstName+' '+Transactions.loanFormData.customer.lastName)}}"
+                                     alt="iamge"
+                                     class="mr-3 mt-3 rounded-circle" style="width:60px;">
+
+
+                                <img ng-show="Transactions.loanFormData.customer.image"
+                                     ng-src="{{Transactions.loanFormData.customer.image}}"
+
+                                     alt="image"
+                                     class="mr-3 mt-3 rounded-circle" style="width:60px;height:60px;">
+
+                                <div class="media-body">
+                                    <h5>{{Transactions.loanFormData.customer.id}} {{Transactions.loanFormData.customer.firstName}}
+                                        {{Transactions.loanFormData.lastName}}</h5>
+                                    <div class="customer-contacts"><span class="col-xs-12"><i
+                                            class="fas fa-mobile"></i> {{Transactions.loanFormData.customer.mobile}}</span><span
+                                            class="col-xs-12"> | <i class="fas fa-envelope"></i> {{Transactions.loanFormData.customer.customerEmail}}</span>
+                                    </div>
+                                    <div class="col-xs-12" style="margin-top: 0px;">
+                                        Branch : {{Transactions.loanFormData.customer.branch}}
+                                    </div>
+
+                                    <div class="btn-link">
+                                        <b>Ksh. {{Transactions.loanFormData.customer.loanLimit}}</b>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <form name="loanForm" ng-if="loans.reloadForm" role="form" novalidate="">
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="transactionNo">Loan Amount
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <input type="text" ng-model='Transactions.loanFormData.amount'
+                                           ng-class="{'has-error-input' : loanForm.amount.$invalid&&loanForm.amount.$dirty}"
+
+                                           ng-pattern="customers.regex.loan"
+                                           class="form-control" required name="amount" id="amount">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.amount.$invalid&&loanForm.amount.$dirty">
+                                    Invalid characters on loan name
+                                </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="transactionNo">Reference Number
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <input type="text" ng-model='Transactions.loanFormData.transactionNo'
+                                           ng-class="{'has-error-input' : loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty}"
+
+
+                                           class="form-control" required name="transactionNo" id="transactionNo">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty">
+                                    Invalid transaction number
+                                </span>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="stationId">Branch
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <input type="text" ng-model='Transactions.loanFormData.stationId'
+                                           ng-class="{'has-error-input' : loanForm.stationId.$invalid&&loanForm.stationId.$dirty}"
+
+
+                                           class="form-control" required name="stationId" id="stationId">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty">
+                                    Invalid branch
+                                </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="transactionNo">Mobile
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <input type="text" ng-model='Transactions.loanFormData.mobile'
+                                           ng-class="{'has-error-input' : loanForm.mobile.$invalid&&loanForm.mobile.$dirty}"
+
+
+                                           class="form-control" required name="mobile" id="mobile">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.mobile.$invalid&&loanForm.mobile.$dirty">
+                                    Invalid phone number
+                                </span>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="dateDue">Date Due
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <input type="date" ng-model='Transactions.loanFormData.dateDue'
+                                           ng-class="{'has-error-input' : loanForm.dateDue.$invalid&&loanForm.dateDue.$dirty}"
+
+
+                                           class="form-control" required name="dateDue" id="dateDue">
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.dateDue.$invalid&&loanForm.dateDue.$dirty">
+                                    Invalid branch
+                                </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="dateDue">Transaction Type
+                                        <mandatory-field></mandatory-field>
+                                    </label>
+                                    <select  ng-model='Transactions.loanFormData.transactionType'
+                                           ng-class="{'has-error-input' : loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty}"
+
+
+                                           class="form-control" required name="transactionType" id="transactionType">
+                                        <option value="1">Loan</option>
+                                        <option value="2">Repayment</option>
+                                    </select>
+
+                                    <span class="has-error"
+                                          ng-show="loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty">
+                                    Invalid branch
+                                </span>
+                                </div>
+
+
+                            </div>
+
+
+                            <div class="col-xs-12 text-right  modal-custom-footer">
+
+                                <br>
+                                <button class="btn  btn-primary" ng-disabled="loanForm.$invalid"
+                                        ng-click="Transactions.saveLoan(Transactions.loanFormData)">Save Loan
+
+                                </button>
+
+                                <button class="btn  btn-danger" data-dismiss="modal" aria-disabled="false">cancel
+
+                                </button>
+
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+
+            </div>
+        </div>
+    </div>
+</div>
