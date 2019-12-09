@@ -24,6 +24,22 @@ class Main extends CI_Controller
         $search = $this->input->get('search');
 
         $whr['status'] = 1;
+
+        $postedData = $this->utility->returnArrayFromInput();
+        $postedData = (array)$postedData['saveData'];
+
+        if (isset($postedData['dateFrom'])) {
+            $whr['dateCreated >= '] = date('Y-m-d', strtotime($postedData['dateFrom']));
+        }
+        if (isset($postedData['dateTo'])) {
+            $whr['dateCreated <= '] = date('Y-m-d', strtotime($postedData['dateTo']));
+        }
+
+        if (isset($postedData['gender'])) {
+            $whr['gender'] = $postedData['gender'];
+        }
+
+
         $customers = $this->Customers->getAllCustomers($whr, $page, $search);
 
         if (count($customers) > 0) {
@@ -41,8 +57,8 @@ class Main extends CI_Controller
 
     public function saveCustomer()
     {
-        $departmentDetails = $this->utility->returnArrayFromInput();
-        $insertInfo = (array)$departmentDetails['saveData'];
+        $postedData = $this->utility->returnArrayFromInput();
+        $insertInfo = (array)$postedData['saveData'];
 
         if (is_array($insertInfo)) {
 

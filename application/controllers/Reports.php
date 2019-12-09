@@ -24,7 +24,16 @@ class Reports extends CI_Controller
         $search = $this->input->get('search');
 
 
-        $whr['status'] = 1;
+        $whr['transactions.status'] = 1;
+        $postedData = $this->utility->returnArrayFromInput();
+        $postedData = (array)$postedData['saveData'];
+
+        if (isset($postedData['dateFrom'])) {
+            $whr['transactions.dateCreated >= '] = date('Y-m-d', strtotime($postedData['dateFrom']));
+        }
+        if (isset($postedData['dateTo'])) {
+            $whr['transactions.dateCreated <= '] = date('Y-m-d', strtotime($postedData['dateTo']));
+        }
 
         if (is_numeric($type) && $type != 0) {
             $whr['transactionType'] = $type;
@@ -35,7 +44,7 @@ class Reports extends CI_Controller
 
 
             $count = $this->Transactionsmodel->getTotalTransactions($whr, $search);
-            $this->utility->echoJsonArray(1, $Transactions, 'No Transaction available', array('totalPages' => ceil($count / PAGE_NUMBER_ITEMS), 'totalItems' => $count));
+            $this->utility->echoJsonArray(1, $Transactions, ' Transaction available', array('totalPages' => ceil($count / PAGE_NUMBER_ITEMS), 'totalItems' => $count));
         } else {
 
             $this->utility->echoJsonArray(0, NULL, 'No Transaction available');
@@ -51,7 +60,17 @@ class Reports extends CI_Controller
         $search = $this->input->get('search');
 
 
-        $whr['status'] = 1;
+        $whr['transactions.status'] = 1;
+        $postedData = $this->utility->returnArrayFromInput();
+        $postedData = (array)$postedData['saveData'];
+
+        if (isset($postedData['dateFrom'])) {
+            $whr['transactions.dateCreated >= '] = date('Y-m-d', strtotime($postedData['dateFrom']));
+        }
+        if (isset($postedData['dateTo'])) {
+            $whr['transactions.dateCreated <= '] = date('Y-m-d', strtotime($postedData['dateTo']));
+        }
+
 
         if (is_numeric($type) && $type != 0) {
             $whr['transactionType'] = $type;
@@ -60,17 +79,21 @@ class Reports extends CI_Controller
 
         $objPHPExcel->setActiveSheetIndex(0);
 
-        $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'Country Code');
-        $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Country Name');
-        $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Capital');
+        $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'Customer Name');
+        $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Transaction Date');
+        $objPHPExcel->getActiveSheet()->SetCellValue('C1', 'Loan Code');
+        $objPHPExcel->getActiveSheet()->SetCellValue('D1', 'Txn Number');
+        $objPHPExcel->getActiveSheet()->SetCellValue('E1', 'Amount');
 
         $objPHPExcel->getActiveSheet()->getStyle("A1:C1")->getFont()->setBold(true);
 
         $rowCount = 2;
         foreach ($Transactions as $key => $value) {
-            $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, mb_strtoupper($value['code'], 'UTF-8'));
-            $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, mb_strtoupper($value['amount'], 'UTF-8'));
-            $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, mb_strtoupper($value['type'], 'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, mb_strtoupper($value['firstName'] . " " . $value['lastName'], 'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, mb_strtoupper($this->utility->formatDate($value['dateCreated']), 'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue('C' . $rowCount, mb_strtoupper($value['code'], 'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue('D' . $rowCount, mb_strtoupper($value['transactionNo'], 'UTF-8'));
+            $objPHPExcel->getActiveSheet()->SetCellValue('E' . $rowCount, mb_strtoupper(number_format($value['amount'], 2), 'UTF-8'));
             $rowCount++;
         }
 
@@ -79,8 +102,17 @@ class Reports extends CI_Controller
         ob_end_clean();
         header('Content-type: application/vnd.ms-excel');
         header('Content-Disposition: attachment; filename="Transactions File.xlsx"');
-        $objWriter->save('php://output');
 
+
+        $filename = 'files/' . $this->utility->generateRandomString() . '.xlsx';
+        $path = FCPATH . $filename;
+
+        $objWriter->save($path);
+
+        if ($filename)
+            $this->utility->echoJsonArray(1, $filename, ' file available');
+
+        $this->utility->echoJsonArray(0, "", ' file could not be downloaded');
 
     }
 
@@ -90,6 +122,17 @@ class Reports extends CI_Controller
 
 
         $whr['transactions.status'] = 1;
+
+        $postedData = $this->utility->returnArrayFromInput();
+        $postedData = (array)$postedData['saveData'];
+
+        if (isset($postedData['dateFrom'])) {
+            $whr['transactions.dateCreated >= '] = date('Y-m-d', strtotime($postedData['dateFrom']));
+        }
+        if (isset($postedData['dateTo'])) {
+            $whr['transactions.dateCreated <= '] = date('Y-m-d', strtotime($postedData['dateTo']));
+        }
+
 
         if (is_numeric($type) && $type != 0) {
             $whr['transactionType'] = $type;
@@ -120,11 +163,11 @@ class Reports extends CI_Controller
         $table .= "</tr>";
         foreach ($Transactions as $key => $value) {
             $table .= "<tr>";
-            $table .= "<td> " . $value['firstName'] . " " . $value['lastName'] ."</td>";
+            $table .= "<td> " . $value['firstName'] . " " . $value['lastName'] . "</td>";
             $table .= "<td> " . $this->utility->formatDate($value['dateCreated']) . "</td>";
             $table .= "<td> " . $value['code'] . "</td>";
             $table .= "<td> " . $value['transactionNo'] . "</td>";
-            $table .= "<td> " . number_format($value['amount'],2) . "</td>";
+            $table .= "<td> " . number_format($value['amount'], 2) . "</td>";
 
 
             $table .= "</tr>";
@@ -133,7 +176,11 @@ class Reports extends CI_Controller
 
         $table .= "</table>";
 
-        $this->generatePdf($table);
+        $file = $this->generatePdf($table);
+        if ($file)
+            $this->utility->echoJsonArray(1, $file, ' file available');
+
+        $this->utility->echoJsonArray(0, "", ' file could not be downloaded');
     }
 
     public function generatePdf($html)
@@ -161,7 +208,11 @@ class Reports extends CI_Controller
 
 
         $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->Output('Transactions File.pdf', 'D');
+        $filename = 'files/' . $this->utility->generateRandomString() . '.pdf';
+        $path = FCPATH . $filename;
+
+        $pdf->Output($path, 'F');
+        return $filename;
         ob_end_clean();
     }
 
