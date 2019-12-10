@@ -67,11 +67,7 @@
 	</a>
 	<div class="nav-countries">
 		<a href="#/" class="nav-country" style="padding-right: 10px;">
-			KENYA
-		</a>
-
-		<a href="#/" class="nav-country">
-			UGANDA
+			HQ
 		</a>
 
 	</div>
