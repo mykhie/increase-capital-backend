@@ -9,6 +9,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+/**
+ * this class computes the spread between 2 columns
+
+ */
 
 class SpreadComputation
 {
