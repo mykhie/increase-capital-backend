@@ -63,67 +63,108 @@
                             <form name="loanForm" ng-if="loans.reloadForm" role="form" novalidate="">
 
 
-                                <div class="form-group">
-                                    <label for="loanName">Loan Name <mandatory-field></mandatory-field></label>
-                                    <input type="text" ng-model='loans.loanFormData.loanName'
-                                           ng-class="{'has-error-input' : loanForm.loanName.$invalid&&loanForm.loanName.$dirty}"
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="transactionNo">Loan Amount
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <input type="text" ng-model='Transactions.loanFormData.amount'
+                                               ng-class="{'has-error-input' : loanForm.amount.$invalid&&loanForm.amount.$dirty}"
 
-                                           ng-pattern="customers.regex.name"
-                                           class="form-control" required name="loanName" id="loanName">
+                                               ng-pattern="customers.regex.loan"
+                                               class="form-control" required name="amount" id="amount">
 
-                                    <span class="has-error"
-                                          ng-show="loanForm.loanName.$invalid&&loanForm.loanName.$dirty">
+                                        <span class="has-error"
+                                              ng-show="loanForm.amount.$invalid&&loanForm.amount.$dirty">
                                     Invalid characters on loan name
                                 </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="transactionNo">Reference Number
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <input type="text" ng-model='Transactions.loanFormData.transactionNo'
+                                               ng-class="{'has-error-input' : loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty}"
+
+
+                                               class="form-control" required name="transactionNo" id="transactionNo">
+
+                                        <span class="has-error"
+                                              ng-show="loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty">
+                                    Invalid transaction number
+                                </span>
+                                    </div>
 
                                 </div>
 
-                                <div class="form-group">
-                                    <label for="loanAmount">Loan Amount <mandatory-field></mandatory-field> <b>[Max :
-                                        {{loans.loanFormData.customer.loanLimit}}]</b></label>
-                                    <input type="number" ng-model='loans.loanFormData.loanAmount'
-                                           ng-class="{'has-error-input' : loanForm.loanAmount.$invalid&&loanForm.loanAmount.$dirty}"
-                                           max="{{loans.loanFormData.customer.loanLimit}}" min="0"
-                                           ng-pattern="customers.regex.loan"
-                                           class="form-control" required name="loanAmount" id="loanAmount">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="stationId">Branch
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <input type="text" ng-model='Transactions.loanFormData.stationId'
+                                               ng-class="{'has-error-input' : loanForm.stationId.$invalid&&loanForm.stationId.$dirty}"
 
-                                    <span class="has-error"
-                                          ng-show="loanForm.loanAmount.$invalid&&loanForm.loanAmount.$dirty">
-                                   Loan Amount exceed customer limit
+
+                                               class="form-control" required name="stationId" id="stationId">
+
+                                        <span class="has-error"
+                                              ng-show="loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty">
+                                    Invalid branch
                                 </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="transactionNo">Mobile
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <input type="text" ng-model='Transactions.loanFormData.mobile'
+                                               ng-class="{'has-error-input' : loanForm.mobile.$invalid&&loanForm.mobile.$dirty}"
+
+
+                                               class="form-control" required name="mobile" id="mobile">
+
+                                        <span class="has-error"
+                                              ng-show="loanForm.mobile.$invalid&&loanForm.mobile.$dirty">
+                                    Invalid phone number
+                                </span>
+                                    </div>
 
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label for="dateDue">Date Due
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <input type="date" ng-model='Transactions.loanFormData.dateDue'
+                                               ng-class="{'has-error-input' : loanForm.dateDue.$invalid&&loanForm.dateDue.$dirty}"
 
-                                <div class="form-group">
-                                    <label for="interestRate">Interest Rate <mandatory-field></mandatory-field></label>
-                                    <input type="number" ng-model='loans.loanFormData.interestRate'
-                                           ng-class="{'has-error-input' : loanForm.interestRate.$invalid&&loanForm.interestRate.$dirty}"
-                                           max="100" min="0"
-                                           ng-pattern="customers.regex.loan"
-                                           class="form-control" required name="interestRate" id="interestRate">
 
-                                    <span class="has-error"
-                                          ng-show="loanForm.interestRate.$invalid&&loanForm.interestRate.$dirty">
-                                   Interest Rate must be between 0-100
+                                               class="form-control" required name="dateDue" id="dateDue">
+
+                                        <span class="has-error"
+                                              ng-show="loanForm.dateDue.$invalid&&loanForm.dateDue.$dirty">
+                                    Invalid branch
                                 </span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="dateDue">Transaction Type
+                                            <mandatory-field></mandatory-field>
+                                        </label>
+                                        <select  ng-model='Transactions.loanFormData.transactionType'
+                                                 ng-class="{'has-error-input' : loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty}"
 
-                                </div>
 
+                                                 class="form-control" required name="transactionType" id="transactionType">
+                                            <option value="1">Loan</option>
+                                            <option value="2">Repayment</option>
+                                        </select>
 
-                                <div class="form-group">
-                                    <label for="type">type <mandatory-field></mandatory-field></label>
-                                    <select ng-model='loans.loanFormData.type'
-                                            ng-class="{'has-error-input' : loanForm.type.$invalid&&loanForm.type.$dirty}"
-
-                                            ng-pattern="customers.regex.name"
-                                            class="form-control" required name="type" id="type">
-                                        <option ng-repeat="type in loans.loanTypes">{{type.name}}</option>
-
-                                    </select>
-                                    <span class="has-error"
-                                          ng-show="loanForm.type.$invalid&&loanForm.type.$dirty">
-                                    Invalid type
+                                        <span class="has-error"
+                                              ng-show="loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty">
+                                    Invalid branch
                                 </span>
+                                    </div>
+
 
                                 </div>
 
@@ -132,7 +173,7 @@
 
                                     <br>
                                     <button class="btn  btn-primary" ng-disabled="loanForm.$invalid"
-                                            ng-click="loans.saveLoan(loans.loanFormData)">Save Loan
+                                            ng-click="Transactions.saveLoan(Transactions.loanFormData)">Save Loan
 
                                     </button>
 
