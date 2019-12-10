@@ -17,6 +17,14 @@ Database Connections
 On the root of the project,there is a file ```config.json``` that has DB credentials.
 They can be changed to match the your current database
 
-On the root folder,there is a .SQL file.Please run that against you database so as to generate scripts and populate with data
+On the root folder,there is a 20160412_Applicants_Name_App Dev Interview/database.sql file.Please run that against you database so as to generate scripts and populate with data
+
 
 You can now access the app via the browser e.g http://localhost:9000/
+
+###################
+Coding Prac 2
+###################
+The file to code is on the root folder with the name ``weather.php``
+
+To run it accesshttp://localhost:9000/weather.php ,assuming ``http://localhost:9000/`` is your app root route
