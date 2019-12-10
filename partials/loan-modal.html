@@ -1,5 +1,5 @@
 <div>
-    <div class="modal" id="loan">
+    <div class="modal" id="myModal">
         <div class="modal-dialog  modal-lg modal-full">
             <div class="modal-content modal-bg">
 
@@ -39,7 +39,8 @@
                             <div class="card-body">
                                 <label><b>Issue To : </b></label>
                                 <div class="media border p-3" style="border: none!important;">
-                                    <img src="https://via.placeholder.com/150/e66425/FFFFFF?text={{customers.returnInitials(loans.loanFormData.customer.firstName+' '+loans.loanFormData.customer.lastName)}}" alt="John Doe"
+                                    <img src="https://via.placeholder.com/150/e66425/FFFFFF?text={{customers.returnInitials(loans.loanFormData.customer.firstName+' '+loans.loanFormData.customer.lastName)}}"
+                                         alt="John Doe"
                                          class="mr-3 mt-3 rounded-circle" style="width:60px;">
                                     <div class="media-body">
                                         <h5>{{loans.loanFormData.customer.id}} {{loans.loanFormData.customer.firstName}}
@@ -150,11 +151,12 @@
                                         <label for="dateDue">Transaction Type
                                             <mandatory-field></mandatory-field>
                                         </label>
-                                        <select  ng-model='Transactions.loanFormData.transactionType'
-                                                 ng-class="{'has-error-input' : loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty}"
+                                        <select ng-model='Transactions.loanFormData.transactionType'
+                                                ng-class="{'has-error-input' : loanForm.transactionType.$invalid&&loanForm.transactionType.$dirty}"
 
 
-                                                 class="form-control" required name="transactionType" id="transactionType">
+                                                class="form-control" required name="transactionType"
+                                                id="transactionType">
                                             <option value="1">Loan</option>
                                             <option value="2">Repayment</option>
                                         </select>
@@ -173,7 +175,8 @@
 
                                     <br>
                                     <button class="btn  btn-primary" ng-disabled="loanForm.$invalid"
-                                            ng-click="Transactions.saveLoan(Transactions.loanFormData)">Save Loan
+                                            ng-click="Transactions.loanFormData.customer =loans.loanFormData.customer;Transactions.saveLoan(Transactions.loanFormData)">
+                                        Save Loan
 
                                     </button>
 
