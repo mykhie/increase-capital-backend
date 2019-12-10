@@ -103,12 +103,18 @@
                                         <label for="stationId">Branch
                                             <mandatory-field></mandatory-field>
                                         </label>
-                                        <input type="text" ng-model='Transactions.loanFormData.stationId'
-                                               ng-class="{'has-error-input' : loanForm.stationId.$invalid&&loanForm.stationId.$dirty}"
 
 
-                                               class="form-control" required name="stationId" id="stationId">
 
+                                        <select ng-model='Transactions.loanFormData.stationId'
+                                                ng-class="{'has-error-input' : loanForm.stationId.$invalid&&loanForm.stationId.$dirty}"
+
+
+                                                class="form-control" required name="stationId" id="stationId">
+                                            <option ng-repeat="branch in customers.branches">{{branch.name}}</option>
+
+                                        </select>
+                                        
                                         <span class="has-error"
                                               ng-show="loanForm.transactionNo.$invalid&&loanForm.transactionNo.$dirty">
                                     Invalid branch
