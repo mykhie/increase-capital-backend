@@ -70,15 +70,16 @@
                 <div class="float-right col-md-6 text-right">
                     <ul class="list-unstyled ">
                         <li><span>{{Transactions.transactions.startPosition}}-{{Transactions.transactions.endPosition}} of {{Transactions.transactions.totalItems}}</span>
-                        </li>
-                        <li ng-show="Customers.customers.showPrevButton">
-                            <a class="np-btn" href="#/customers" ng-click="Transactions.transactions.goToPrevPage()"><i
-                                    class="fa fa-angle-left  pagination-left"></i></a>
-                        </li>
-                        <li ng-show="Customers.customers.showNextButton">
 
-                            <a class="np-btn" href="#/customers" ng-click="Transactions.transactions.goToNextPage()"><i
+                        <span ng-show="Transactions.transactions.showPrevButton">
+                            <a class="btn btn-sm btn-default" href="#/loans" ng-click="Transactions.transactions.goToPrevPage()"><i
+                                    class="fa fa-angle-left  pagination-left"></i></a>
+                        </span>
+                        <span ng-show="Transactions.transactions.showNextButton">
+
+                            <a class="btn btn-sm btn-default" href="#/loans" ng-click="Transactions.transactions.goToNextPage()"><i
                                     class="fa fa-angle-right pagination-right"></i></a>
+                        </span>
                         </li>
                     </ul>
                 </div>
@@ -124,7 +125,7 @@
                                 <td>{{loan.firstName}} {{loan.lastName}}</td>
                                 <td>{{loan.dateCreated}}</td>
                                 <td>{{loan.dateDue}}</td>
-                                <td>{{loan.loanStatusId}}</td>
+                                <td>{{loan.statusName}}</td>
                                 <td>{{loan.transactionNo}}</td>
                                 <td>
                                     <span ng-show="loan.transactionType==2">

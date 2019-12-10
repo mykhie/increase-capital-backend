@@ -23,11 +23,12 @@ class Transactionsmodel extends CI_Model
         if (strlen($search) > 0) {
             $this->db->where("(code LIKE '%$search%')");
         }
-        $this->db->select("transactions.*,customers.firstName,customers.lastName");
+        $this->db->select("transactions.*,customers.firstName,customers.lastName,loanstatus.statusName");
         if ($page > -1)
             $this->db->limit(PAGE_NUMBER_ITEMS, $page * PAGE_NUMBER_ITEMS);
 
-        $this->db->join($this->Customers->table,  $this->Customers->table.'.id=transactions.customerId');
+        $this->db->join($this->Customers->table,  $this->Customers->table.'.id=transactions.customerId','left');
+        $this->db->join('loanstatus',  'loanstatus.loanStatusId=transactions.loanStatusId','left');
         $this->db->order_by($this->table.'.id', 'desc');
 
         $q = $this->db->get($this->table);

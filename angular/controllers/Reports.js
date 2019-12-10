@@ -169,7 +169,7 @@ loans.controller('ReportsController', function ($rootScope, $scope, $timeout, ap
 
     $scope.Reports.downloadExcel = function () {
 
-        let customerFilter = {};
+        let customerFilter = $scope.Reports.formData;
 
 
         $scope.Reports.selectedTxnType = $routeParams.type;
@@ -198,7 +198,7 @@ loans.controller('ReportsController', function ($rootScope, $scope, $timeout, ap
     };
     $scope.Reports.downloadPdf = function () {
 
-        let customerFilter = {};
+        let customerFilter = $scope.Reports.formData;
 
 
         $scope.Reports.selectedTxnType = $routeParams.type;

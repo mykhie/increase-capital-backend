@@ -65,15 +65,16 @@
                 <div class="float-right col-md-6 text-right">
                     <ul class="list-unstyled ">
                         <li><span>{{customers.customers.startPosition}}-{{customers.customers.endPosition}} of {{customers.customers.totalItems}}</span>
-                        </li>
-                        <li ng-show="Customers.customers.showPrevButton">
+
+                            <span ng-show="customers.customers.showPrevButton">
                             <a class="np-btn" href="#/customers" ng-click="customers.customers.goToPrevPage()"><i
                                     class="fa fa-angle-left  pagination-left"></i></a>
-                        </li>
-                        <li ng-show="Customers.customers.showNextButton">
+                        </span>
+                            <span ng-show="customers.customers.showNextButton">
 
                             <a class="np-btn" href="#/customers" ng-click="customers.customers.goToNextPage()"><i
                                     class="fa fa-angle-right pagination-right"></i></a>
+                        </span>
                         </li>
                     </ul>
                 </div>
@@ -100,8 +101,8 @@
                 </div>
                 <div class="col-3">
                     <select class="form-control " ng-change="customers.customers.searchRecords()"
-                           ng-model="customers.formSearchData.gender"
-                          >
+                            ng-model="customers.formSearchData.gender"
+                    >
                         <option selected disabled>--SELECT GENDER--</option>
                         <option ng-repeat="gender in customers.gender" value="{{gender.id}}">{{gender.name}}</option>
                     </select>
@@ -144,10 +145,13 @@
 
                             <div class="">
                                 <p ng-show="customer.showLoad">{{customer.email}} | {{customer.mobile}}</p>
-                                <a href="#/" ng-click='customer.showLoad=true' class="btn-link" ng-show="!customer.showLoad">Contacts</a>
+                                <a href="#/" ng-click='customer.showLoad=true' class="btn-link"
+                                   ng-show="!customer.showLoad">Contacts</a>
 
-                                <a href="#/loans/{{customer.id}}/1" class="pl-2 btn-link" ng-click="customers.saveTempCustomer(customer)">Loans</a>
-                                <a href="#/loans/{{customer.id}}/2" class="pl-2 btn-link"  ng-click="customers.saveTempCustomer(customer)">Repayments</a>
+                                <a href="#/loans/{{customer.id}}/1" class="pl-2 btn-link"
+                                   ng-click="customers.saveTempCustomer(customer)">Loans</a>
+                                <a href="#/loans/{{customer.id}}/2" class="pl-2 btn-link"
+                                   ng-click="customers.saveTempCustomer(customer)">Repayments</a>
                             </div>
                             <div class="col-xs-12 text-right">
                                 <button class="btn bg-default btn-md round-btn"
